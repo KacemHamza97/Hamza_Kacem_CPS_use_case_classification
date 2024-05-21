@@ -1,0 +1,13 @@
+[flake8]
+max-line-length = 88
+exclude = 
+    .git,
+    __pycache__
+    venv,
+    output,
+    mlruns,
+    Hamza_Kacem_CPS_use_case_classification.egg-info,
+    data,
+    .pytest_cache
+
+max-complexity = 10

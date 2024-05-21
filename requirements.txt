@@ -4,4 +4,6 @@ joblib
 mlflow
 pytest
 pytest-mock
+black
+flake8
 -e .
