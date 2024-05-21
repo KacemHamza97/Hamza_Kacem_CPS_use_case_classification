@@ -1,0 +1,20 @@
+data:
+  training_data_path: "data/CPS_use_case_classification_training.json"
+  response_data_path: "data/CPS_use_case_classification_response.json"
+
+models:
+  - name: LogisticRegression
+    parameters:
+      max_iter: 1000
+      class_weight: "balanced"
+  - name: MultinomialNB
+    parameters:
+      alpha: 1.0
+      fit_prior: true
+  - name: SGDClassifier
+    parameters:
+      max_iter: 1000
+
+output:
+  prediction_path: "output/"
+  model_path: "models/"
