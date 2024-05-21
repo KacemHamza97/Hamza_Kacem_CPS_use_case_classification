@@ -19,8 +19,7 @@ class Trainer:
 
     def train_model(self, model_name, model_params, X_train, y_train):
         self.logger.info(
-            f"Training model {
-                         model_name} with params {model_params}..."
+            f"Training model {model_name} with params {model_params}..."
         )
         self.pipeline = self.feature_engineer.create_pipeline(model_name, model_params)
         self.pipeline.fit(X_train, y_train)
@@ -41,10 +40,7 @@ class Trainer:
     def make_predictions(self, model_name, X_test):
         self.logger.info(f"Making predictions for model {model_name}...")
         predictions = self.pipeline.predict(X_test)
-        self.logger.info(
-            f"Predictions for model {
-                         model_name} made successfully."
-        )
+        self.logger.info(f"Predictions for model {model_name} made successfully.")
         return predictions
 
     def save_predictions(self, predictions, model_name, output_path):
@@ -52,8 +48,7 @@ class Trainer:
             predictions, f"{output_path}_{model_name}.json"
         )
         mlflow.log_artifact(f"{output_path}_{model_name}.json")
-        self.logger.info(
-            f"Predictions for model {model_name} saved to output file.")
+        self.logger.info(f"Predictions for model {model_name} saved to output file.")
 
     def run(self, output_path, model_name, model_params):
         self.logger.info("Run method started.")
