@@ -77,5 +77,5 @@ class PipelineFactory:
         """
         # Create the pipeline
         return Pipeline(
-            [("tfidf", TfidfVectorizer()), ("clf", LogisticRegression(**params))]
-        )
+            [("tfidf", TfidfVectorizer()),
+             ("clf", LogisticRegression(**params))])

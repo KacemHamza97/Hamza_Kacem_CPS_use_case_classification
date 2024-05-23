@@ -7,7 +7,7 @@ from src.utils import load_config
 
 def main(args):
     """
-    The main function that sets up the logger, 
+    The main function that sets up the logger,
     sets the experiment in mlflow, and starts training the models.
 
     Parameters:

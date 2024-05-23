@@ -4,6 +4,7 @@ exclude =
     .git,
     __pycache__
     venv,
+    myenv,
     output,
     mlruns,
     Hamza_Kacem_CPS_use_case_classification.egg-info,

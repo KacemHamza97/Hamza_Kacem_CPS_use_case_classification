@@ -35,7 +35,7 @@ class Evaluator:
         y_pred (array-like): The labels predicted by the model.
 
         Returns:
-        metrics (dict): A dictionary containing the accuracy, precision, recall, 
+        metrics (dict): A dictionary containing the accuracy, precision, recall,
             F1 score, and classification report.
         """
         # Calculate the metrics

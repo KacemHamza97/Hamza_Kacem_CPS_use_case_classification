@@ -15,7 +15,7 @@ class Trainer:
     pipeline_factory (PipelineFactory): The factory for creating pipelines.
     data_loader (DataLoader): The loader for loading the training and response data.
     data_preparer (DataPreparer): The preparer for preparing the data.
-    model_handler (ModelHandler): The handler for saving and loading models 
+    model_handler (ModelHandler): The handler for saving and loading models
     and predictions.
     evaluator (Evaluator): The evaluator for evaluating the performance of a model.
     pipeline (Pipeline): The pipeline for the model.
@@ -33,7 +33,7 @@ class Trainer:
         model_path (str): The path to the file where the model should be saved.
         logger (Logger): The logger for logging information.
         """
-        # Initialize the pipeline factory, data loader, data preparer, 
+        # Initialize the pipeline factory, data loader, data preparer,
         # model handler, and evaluator
         self.pipeline_factory = PipelineFactory()
         self.data_loader = DataLoader(training_data_path, response_data_path)
