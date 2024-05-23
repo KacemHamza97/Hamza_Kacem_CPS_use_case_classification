@@ -8,11 +8,37 @@ from sklearn.metrics import (
 
 
 class Evaluator:
+    """
+    A class used to evaluate the performance of a model.
+
+    Attributes:
+    logger (Logger): The logger to use for logging
+        information about the model's performance.
+    """
 
     def __init__(self, logger):
+        """
+        The Evaluator constructor.
+
+        Parameters:
+        logger (Logger): logging information about the model's performance.
+        """
+        # Initialize the logger
         self.logger = logger
 
     def evaluate_model(self, y_true, y_pred):
+        """
+        Evaluate the performance of a model.
+
+        Parameters:
+        y_true (array-like): The true labels.
+        y_pred (array-like): The labels predicted by the model.
+
+        Returns:
+        metrics (dict): A dictionary containing the accuracy, precision, recall, 
+            F1 score, and classification report.
+        """
+        # Calculate the metrics
         metrics = {
             "accuracy": accuracy_score(y_true, y_pred),
             "precision": precision_score(
@@ -25,6 +51,7 @@ class Evaluator:
             ),
         }
 
+        # Log the metrics
         self.logger.info(f"Accuracy: {metrics['accuracy']}")
         self.logger.info(f"Precision: {metrics['precision']}")
         self.logger.info(f"Recall: {metrics['recall']}")
@@ -32,4 +59,5 @@ class Evaluator:
         self.logger.info("Classification Report:")
         self.logger.info(metrics["classification_report"])
 
+        # Return the metrics
         return metrics

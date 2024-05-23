@@ -3,17 +3,33 @@ from sklearn.model_selection import train_test_split
 
 
 class DataPreparer:
-    def __init__(self, feature_engineer):
-        self.feature_engineer = feature_engineer
+
+    def combine_text_features(self, df):
+        return df["authors"] + " " + df["headline"] + " " + df["link"]
+
+    def map_categories(self, category):
+        category_mapping = {
+            "ARTS & CULTURE": "ARTS & CULTURE",
+            "CULTURE & ARTS": "ARTS & CULTURE",
+            "ARTS": "ARTS & CULTURE",
+            "WORLD NEWS": "WORLD NEWS",
+            "THE WORLDPOST": "WORLD NEWS",
+            "WORLDPOST": "WORLD NEWS",
+            "STYLE & BEAUTY": "STYLE & BEAUTY",
+            "STYLE": "STYLE & BEAUTY",
+            "WELLNESS": "WELLNESS",
+            "HEALTHY LIVING": "WELLNESS",
+        }
+        return category.map(lambda x: category_mapping.get(x, x))
 
     def prepare_data(self, df_training, df_response):
-        df_training["combined_features"] = self.feature_engineer.combine_text_features(
+        df_training["combined_features"] = self.combine_text_features(
             df_training
         )
-        df_response["combined_features"] = self.feature_engineer.combine_text_features(
+        df_response["combined_features"] = self.combine_text_features(
             df_response
         )
-        df_training["category"] = self.feature_engineer.map_categories(
+        df_training["category"] = self.map_categories(
             df_training["category"]
         )
 

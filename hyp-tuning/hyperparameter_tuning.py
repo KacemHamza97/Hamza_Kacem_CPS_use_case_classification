@@ -1,12 +1,14 @@
+import yaml
 from sklearn.model_selection import RandomizedSearchCV
 from sklearn.metrics import make_scorer, f1_score
 from src.data_loader import DataLoader
 from src.data_preparer import DataPreparer
-from src.featurizer import FeatureEngineer
 from sklearn.feature_extraction.text import TfidfVectorizer
 from src.logger import setup_logger
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import LabelEncoder
+
+from src.utils import load_config
 
 
 def create_pipeline(model_name, model_params):
@@ -32,14 +34,16 @@ def create_pipeline(model_name, model_params):
         raise ValueError(f"Invalid model name: {model_name}")
 
 
-def main(config):
+def main():
     logger = setup_logger("hyperparameter_tuning")
+
+    config = load_config("hyp-tuning/tune_config.yml")
 
     data_loader = DataLoader(
         config["data"]["training_data_path"], config["data"]["response_data_path"]
     )
-    feature_engineer = FeatureEngineer()
-    data_preparer = DataPreparer(feature_engineer)
+
+    data_preparer = DataPreparer()
 
     df_training, df_response = data_loader.load_data()
     X_train, y_train, _, _, _ = data_preparer.prepare_data(df_training, df_response)
@@ -50,6 +54,8 @@ def main(config):
 
     # Define the scorer for multi-class classification
     scorer = make_scorer(f1_score, average="macro")
+
+    best_params = {}
 
     for model_name, model_config in config["models"].items():
         param_dist = model_config["param_dist"]
@@ -71,40 +77,14 @@ def main(config):
         )
         random_search.fit(X_train, y_train_encoded)
 
+        best_params[model_name] = random_search.best_params_
+
         print(f"Best parameters for model {model_name}: {random_search.best_params_}")
         print(f"Best score for model {model_name}: {random_search.best_score_}")
 
+    with open('best_config.yml', 'w') as f:
+        yaml.dump(best_params, f)
+
 
 if __name__ == "__main__":
-    config = {
-        "data": {
-            "training_data_path": "data/CPS_use_case_classification_training.json",
-            "response_data_path": "data/CPS_use_case_classification_response.json",
-        },
-        "models": {
-            "logistic_regression": {
-                "param_dist": {
-                    "clf__C": [0.1, 1, 10, 100],
-                    "clf__solver": ["lbfgs", "liblinear"],
-                    "clf__max_iter": [500, 1000, 1500],
-                },
-                "n_iter": 2,
-            },
-            "multinomial_nb": {
-                "param_dist": {
-                    "clf__alpha": [0.01, 0.1, 1.0, 10.0],
-                    "clf__fit_prior": [True, False],
-                },
-                "n_iter": 2,
-            },
-            "sgd_classifier": {
-                "param_dist": {
-                    "clf__alpha": [0.0001, 0.001, 0.01, 0.1],
-                    "clf__penalty": ["l2", "l1", "elasticnet"],
-                    "clf__max_iter": [500, 1000, 1500],
-                },
-                "n_iter": 2,
-            },
-        },
-    }
-    main(config)
+    main()

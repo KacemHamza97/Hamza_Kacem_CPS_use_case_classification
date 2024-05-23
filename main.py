@@ -1,20 +1,27 @@
 import argparse
-import yaml
 import mlflow
 from src.logger import setup_logger
 from src.trainer import Trainer
-
-
-def load_config(config_file):
-    with open(config_file, "r") as file:
-        config = yaml.safe_load(file)
-    return config
+from src.utils import load_config
 
 
 def main(args):
-    logger = setup_logger("main")
-    mlflow.set_experiment("text_classification_experiment")
+    """
+    The main function that sets up the logger, 
+    sets the experiment in mlflow, and starts training the models.
 
+    Parameters:
+    args (argparse.Namespace): Command line arguments parsed by argparse.
+    """
+    # Set up the logger
+    logger = setup_logger("main")
+
+    # Set the experiment in mlflow
+    mlflow.set_experiment(
+        "text_classification_experiment"
+    )
+
+    # For each model in the list of models, start a run in mlflow and train the model
     for model in args.models:
         model_name = model["name"]
         with mlflow.start_run(run_name=model_name):
@@ -25,8 +32,15 @@ def main(args):
 
 
 if __name__ == "__main__":
+    """
+    The entry point of the script.
+    It loads the configuration, sets up the argument parser,
+    parses the arguments, and calls the main function.
+    """
+    # Load the configuration
     config = load_config("config.yml")
 
+    # Set up the argument parser
     parser = argparse.ArgumentParser(description="Text Classification Pipeline")
     parser.add_argument(
         "--training_data",
@@ -59,5 +73,8 @@ if __name__ == "__main__":
         help="List of models to train and evaluate with their parameters",
     )
 
+    # Parse the arguments
     args = parser.parse_args()
+
+    # Call the main function
     main(args)

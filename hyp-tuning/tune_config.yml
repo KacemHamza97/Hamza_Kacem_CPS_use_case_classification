@@ -1,0 +1,21 @@
+data:
+  training_data_path: "data/CPS_use_case_classification_training.json"
+  response_data_path: "data/CPS_use_case_classification_response.json"
+models:
+  logistic_regression:
+    param_dist:
+      clf__C: [0.1, 1, 10, 100]
+      clf__solver: ["lbfgs", "liblinear"]
+      clf__max_iter: [500, 1000, 1500]
+    n_iter: 2
+  multinomial_nb:
+    param_dist:
+      clf__alpha: [0.01, 0.1, 1.0, 10.0]
+      clf__fit_prior: [True, False]
+    n_iter: 2
+  sgd_classifier:
+    param_dist:
+      clf__alpha: [0.0001, 0.001, 0.01, 0.1]
+      clf__penalty: ["l2", "l1", "elasticnet"]
+      clf__max_iter: [500, 1000, 1500]
+    n_iter: 2

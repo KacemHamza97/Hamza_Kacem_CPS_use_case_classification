@@ -131,6 +131,9 @@ cython_debug/
 .vscode/
 .history/
 
+#virtual env
+myenv/
+
 #mlflow runs
 mlruns/
 
