@@ -9,7 +9,7 @@ git clone https://github.com/KacemHamza97/Hamza_Kacem_CPS_use_case_classificatio
 cd Hamza_Kacem_CPS_use_case_classification
 ```
 
-2. **Set up a conda environment and install dependencies:**
+2. **Set up a virtual environment and install dependencies:**
 
 To install all the dependencies, execute the following command:
 
